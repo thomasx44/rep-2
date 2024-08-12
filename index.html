@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .question {
+            display: none;
+            margin-top: 20px;
+        }
+        .question.active {
+            display: block;
+        }
+        .message {
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .button {
+            margin-top: 20px;
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="step1" class="question active">
+        <p>Você é a Maria Eduarda?</p>
+        <button class="button" onclick="nextStep('step1', 'step2')">Sim</button>
+    </div>
+    <div id="step2" class="question">
+        <p>Entendo que isso não é uma conversa, apenas um formulário na internet?</p>
+        <button class="button" onclick="nextStep('step2', 'step3')">Sim</button>
+        <button class="button" onclick="nextStep('step2', '')">Não</button>
+    </div>
+    <div id="step3" class="question">
+        <p>A Dudinha está com a mente um pouco mais relaxada?</p>
+        <button class="button" onclick="storeAnswer('Pergunta 1', 'Sim'); nextStep('step3', 'step4')">Sim</button>
+        <button class="button" onclick="storeAnswer('Pergunta 1', 'Não'); nextStep('step3', 'step4')">Não</button>
+    </div>
+    <div id="step4" class="question">
+        <p>A Duda está se cuidando?</p>
+        <button class="button" onclick="storeAnswer('Pergunta 2', 'Sim'); nextStep('step4', 'step5')">Sim</button>
+        <button class="button" onclick="storeAnswer('Pergunta 2', 'Não'); nextStep('step4', 'step5')">Não</button>
+    </div>
+    <div id="step5" class="question">
+        <p>A Duda está com raiva daquele mlk chato que fez um formulário? Kkkkkkkk</p>
+        <button class="button" onclick="storeAnswer('Pergunta 3', 'Sim'); nextStep('step5', 'step6')">Sim</button>
+        <button class="button" onclick="storeAnswer('Pergunta 3', 'Não'); nextStep('step5', 'step6')">Não</button>
+    </div>
+    <div id="step6" class="question">
+        <p>A Duda melhorou aquela tensão que tava vivendo na mente dela?</p>
+        <button class="button" onclick="storeAnswer('Pergunta 4', 'Sim'); nextStep('step6', 'message')">Sim</button>
+        <button class="button" onclick="storeAnswer('Pergunta 4', 'Não'); nextStep('step6', 'message')">Não</button>
+    </div>
+    <div id="message" class="question">
+        <p class="message">A Duda escolhe como ela quer reagir a essa mensagem, sabe onde me achar se quiser saber as novidades maneiras que o Thomas tem pra contar.</p>
+        <button class="button" onclick="nextStep('message', 'finalStep')">Próximo</button>
+    </div>
+    <div id="finalStep" class="question">
+        <p>PARABÉNS POR TER CHEGADO ATÉ O FINAL, VOCÊ GANHOU UM PRESENTE MISTERIOSO!</p>
+        <button class="button" onclick="sendEmail()">Enviar respostas</button>
+    </div>
+
+    <script>
+        let answers = {};
+
+        function nextStep(currentStep, nextStep) {
+            document.getElementById(currentStep).classList.remove('active');
+            if (nextStep) {
+                document.getElementById(nextStep).classList.add('active');
+            }
+        }
+
+        function storeAnswer(question, answer) {
+            answers[question] = answer;
+        }
+
+        function sendEmail() {
+            let subject = 'Respostas do Formulário';
+            let body = `Aqui estão as respostas do formulário:\n\n`;
+            for (let question in answers) {
+                body += `${question}: ${answers[question]}\n`;
+            }
+
+            window.location.href = `mailto:thomaspimentel18@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+    </script>
+</body>
+</html>
